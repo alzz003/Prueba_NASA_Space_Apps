@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Detección</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container my-5">
+        <div class="card result-card shadow-lg">
+            <div class="card-body">
+                <h1 class="card-title text-center">Resultados del Análisis para "{{ filename }}"</h1>
+                <div class="table-responsive mt-4">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Kepler ID</th>
+                                <th>Periodo (días)</th>
+                                <th>Predicción del Modelo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in results %}
+                            <tr class="{{ 'table-success' if 'Planeta' in result.prediction else ('table-danger' if 'Falso' in result.prediction else 'table-warning') }}">
+                                <td>{{ result.kepid }}</td>
+                                <td>{{ result.period }}</td>
+                                <td><strong>{{ result.prediction }}</strong></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center mt-4">
+                    <a href="/" class="btn btn-primary btn-lg">Analizar otro archivo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
